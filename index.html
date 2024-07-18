@@ -1,0 +1,34 @@
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+# Title of the app
+st.title('1440 Power System Interactive Pie Chart')
+
+# Input for activities
+sleep = st.slider('Sleep (minutes)', 0, 1440, 420)
+work = st.slider('Work (minutes)', 0, 1440, 540)
+gym = st.slider('Gym (minutes)', 0, 1440, 60)
+study_ai = st.slider('Study AI (minutes)', 0, 1440, 180)
+dinner = st.slider('Dinner (minutes)', 0, 1440, 60)
+new_activity = st.slider('New Activity (minutes)', 0, 1440, 60)
+
+# Calculate remaining time
+total_minutes_in_a_day = 1440
+remaining_minutes_weekday = total_minutes_in_a_day - (sleep + work + gym + study_ai + dinner + new_activity)
+
+# Data for the 1440 Power System on a Weekday
+labels_weekday = ['Sleep', 'Work', 'Gym', 'Study AI', 'Dinner', 'New Activity', 'Remaining Time']
+sizes_weekday = [sleep, work, gym, study_ai, dinner, new_activity, remaining_minutes_weekday]
+
+# Creating DataFrame
+data_weekday = pd.DataFrame({
+    'Activity': labels_weekday,
+    'Minutes': sizes_weekday
+})
+
+# Plotting Weekday Pie Chart
+fig_weekday = px.pie(data_weekday, names='Activity', values='Minutes', title='Weekday Activities')
+
+# Display the pie chart
+st.plotly_chart(fig_weekday)
